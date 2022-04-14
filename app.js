@@ -21,7 +21,7 @@ const input = new InputEvent('/dev/input/event4');
 const keyboard = new InputEvent.Keyboard(input);
 
 // Our controller that passes on HTTP requests, etc
-class irController {
+class irControllerSystem {
     constructor() {
 
     }
@@ -31,7 +31,7 @@ class irController {
     }
 }
 
-let irControllerObject = new irController();
+let irController = new irControllerSystem();
 
 // Do Stuff on input
 keyboard.on('data', function(buffer){
