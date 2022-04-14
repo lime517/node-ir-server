@@ -31,7 +31,7 @@ class irController {
     }
 }
 
-let irController = new irController();
+let irControllerObject = new irController();
 
 // Do Stuff on input
 keyboard.on('data', function(buffer){
