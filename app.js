@@ -117,7 +117,7 @@ if (noIr === false) {
   const keyboard = new InputEvent.Keyboard(input);
 
   keyboard.on("data", function (buffer) {
-    console.log(buffer); // Log *everything*
+    // console.log(buffer); // Log *everything*
 
     // Volume up
     if (buffer.type === 4 && buffer.code === 4 && buffer.value === 1026) {
