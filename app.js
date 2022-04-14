@@ -37,12 +37,13 @@ class irControllerSystem {
   }
 
   rawInput(keycode) {
-    // First, Check if this is a fast duplicate. 15ms is impossibly fast for a human to double-tap.
-    if (Date.now() < this.lastNewKeypress + 15) {
+    // First, Check if this is a fast duplicate. 35ms is impossibly fast for a human to double-tap.
+    if (Date.now() < this.lastNewKeypress + 35) {
+        console.log('skipping');
       return; // do nothing. Just straight up ignore this.
+    } else {
+        console.log('happening');
     }
-
-    this.lastNewKeypress = Date.now();
 
     // Otherwise, carry on.
     switch (keycode) {
@@ -52,6 +53,8 @@ class irControllerSystem {
       default:
         console.log("No function bound to input " + keycode);
     }
+
+    this.lastNewKeypress = Date.now();
   }
 
   apiRequest(endpoint, keycode, callback) {
