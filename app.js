@@ -15,9 +15,18 @@ Input       = 1035
 Power       = 1032
 */
 
-const { XMLParser, XMLBuilder, XMLValidator} = require("../src/fxp");
 
-const parser = new XMLParser();
+// Utilities
+const {XMLParser, XMLBuilder, XMLValidator} = require('fast-xml-parser');
+const parser = new XMLParser({
+    attributeNamePrefix : "",
+        attrNodeName: "attr", //default is 'false'
+        textNodeName : "text",
+        ignoreAttributes : false,
+        ignoreNameSpace : false,
+        allowBooleanAttributes : true,
+});
+const axios = require('axios').default;
 
 // Our controller that passes on HTTP requests, etc
 class irControllerSystem {
@@ -44,10 +53,7 @@ class irControllerSystem {
   }
 
   apiRequest(endpoint, keycode, callback) {
-    let request = new XMLHttpRequest();
-    request.addEventListener("load", callback(keycode));
-    request.open("GET", this.apiBase + endpoint);
-    request.send();
+    let request = axios.get(this.apiBase + endpoint);
     return request;
   }
 
@@ -57,18 +63,29 @@ class irControllerSystem {
 
   mute() {
     console.log("mute function called");
-    this.currentMuteState = this.apiRequest("Volume");
-    this.apiRequest("/");
+    const self = this;
+    this.apiRequest("Volume").then(function(response){
+        const isMuted = (parser.parse(response.data)).volume.mute == '1' ? true : false;
+        console.log(isMuted);
+
+        if(isMuted) {
+            self.apiRequest("Volume?mute=0");
+        } else {
+            self.apiRequest("Volume?mute=1");
+        }
+    });
+    // console.log(this.currentMuteState);
+    // this.apiRequest("/");
   }
 }
 
 let irController = new irControllerSystem();
 
 // Testing
-irController.rawInput("mute");
+//irController.rawInput("mute");
 
 // Do Stuff on input
-const noIr = true; // local dev?
+const noIr = false; // local dev?
 if (noIr === false) {
   const InputEvent = require("input-event");
   const input = new InputEvent("/dev/input/event4");
