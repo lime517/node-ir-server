@@ -15,18 +15,17 @@ Input       = 1035
 Power       = 1032
 */
 
-
 // Utilities
-const {XMLParser, XMLBuilder, XMLValidator} = require('fast-xml-parser');
+const { XMLParser, XMLBuilder, XMLValidator } = require("fast-xml-parser");
 const parser = new XMLParser({
-    attributeNamePrefix : "",
-        attrNodeName: "attr", //default is 'false'
-        textNodeName : "text",
-        ignoreAttributes : false,
-        ignoreNameSpace : false,
-        allowBooleanAttributes : true,
+  attributeNamePrefix: "",
+  attrNodeName: "attr", //default is 'false'
+  textNodeName: "text",
+  ignoreAttributes: false,
+  ignoreNameSpace: false,
+  allowBooleanAttributes: true,
 });
-const axios = require('axios').default;
+const axios = require("axios").default;
 
 // Our controller that passes on HTTP requests, etc
 class irControllerSystem {
@@ -39,16 +38,22 @@ class irControllerSystem {
   rawInput(keycode) {
     // First, Check if this is a fast duplicate. 90ms is impossibly fast for a human to double-tap.
     if (Date.now() < this.lastNewKeypress + 90) {
-        console.log('skipping', Date.now(), this.lastNewKeypress);
+      console.log("skipping", Date.now(), this.lastNewKeypress);
       return; // do nothing. Just straight up ignore this.
     } else {
-        console.log('happening', Date.now(), this.lastNewKeypress);
+      console.log("happening", Date.now(), this.lastNewKeypress);
     }
 
     // Otherwise, carry on.
     switch (keycode) {
       case "mute":
         this.mute();
+        break;
+      case "volumeUp":
+        this.volumeChange("up");
+        break;
+      case "volumeDown":
+        this.volumeChange("down");
         break;
       default:
         console.log("No function bound to input " + keycode);
@@ -69,15 +74,30 @@ class irControllerSystem {
   mute() {
     console.log("mute function called");
     const self = this;
-    this.apiRequest("Volume").then(function(response){
-        const isMuted = (parser.parse(response.data)).volume.mute == '1' ? true : false;
-        console.log(isMuted);
+    this.apiRequest("Volume").then(function (response) {
+      const isMuted =
+        parser.parse(response.data).volume.mute == "1" ? true : false;
+      console.log(isMuted);
 
-        if(isMuted) {
-            self.apiRequest("Volume?mute=0");
-        } else {
-            self.apiRequest("Volume?mute=1");
-        }
+      if (isMuted) {
+        self.apiRequest("Volume?mute=0");
+      } else {
+        self.apiRequest("Volume?mute=1");
+      }
+    });
+  }
+
+  volumeChange(direction) {
+    console.log("Volume " + direction + " Change Called");
+    const self = this;
+    const amount = 0;
+    if (direction == "up") {
+      amount = 1;
+    } else if (direction == "down") {
+      amount = -1;
+    }
+    this.apiRequest("Volume?db=" + amount).then(function (response) {
+      console.log('volume adjusted');
     });
     // console.log(this.currentMuteState);
     // this.apiRequest("/");
