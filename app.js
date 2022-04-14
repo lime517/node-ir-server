@@ -122,12 +122,12 @@ if (noIr === false) {
 
     // Volume up
     if (buffer.type === 4 && buffer.code === 4 && buffer.value === 1026) {
-      //console.log('VOLUME UP CONTINUOUS');
+        irController.rawInput("volumeUp");
     }
 
     // Volume down
     if (buffer.type === 4 && buffer.code === 4 && buffer.value === 1027) {
-      //console.log('VOLUME UP CONTINUOUS');
+        irController.rawInput("volumeDown");
     }
 
     // Mute
