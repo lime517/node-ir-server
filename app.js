@@ -89,8 +89,7 @@ class irControllerSystem {
 
   volumeChange(direction) {
     console.log("Volume " + direction + " Change Called");
-    const self = this;
-    const amount = 0;
+    let amount = 0;
     if (direction == "up") {
       amount = 1;
     } else if (direction == "down") {
