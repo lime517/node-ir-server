@@ -42,6 +42,8 @@ class irControllerSystem {
       return; // do nothing. Just straight up ignore this.
     }
 
+    this.lastNewKeypress = Date.now();
+
     // Otherwise, carry on.
     switch (keycode) {
       case "mute":
