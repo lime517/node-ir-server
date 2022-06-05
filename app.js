@@ -71,6 +71,7 @@ class irControllerSystem {
       }
 
       if (stop) {
+        console.log('Stopping.')
         return;
       }
     }
