@@ -34,7 +34,7 @@ class irControllerSystem {
       code: 0
     }
     this.loopSpeed = 100
-    this.gapSpeed = 150;
+    this.gapSpeed = 50;
   }
 
   /*
