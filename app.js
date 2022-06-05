@@ -92,7 +92,7 @@ class irControllerSystem {
 
     this.lastNewKeypress = Date.now();
 
-    console.log(Date.now() + ': ' + keycode + 'called from ' + remoteName + '.');
+    console.log(Date.now() + ': ' + keycode + 'called from ' + remoteName + ' with buffer length of ' + bufferLength + 'ms');
   }
 
   apiRequest(endpoint, keycode, callback) {
