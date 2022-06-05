@@ -33,9 +33,7 @@ class irControllerSystem {
       time: 0,
       code: 0
     }
-    this.repeatTimer = {
-      0
-    }
+    this.loopSpeed = 100
   }
 
   /*
@@ -60,7 +58,7 @@ class irControllerSystem {
     // Was this a self-triggered buffer-loop event?
     if (self === true) {
       // should this run?
-      if (Date.now() > this.lastKeyEvent.time + 100) {
+      if (Date.now() > this.lastKeyEvent.time + this.loopSpeed) {
         return; // stop.
       }
     }
@@ -90,7 +88,8 @@ class irControllerSystem {
 
     this.lastNewKeypress = Date.now();
 
-    setTimeout(this.rawInput(keycode, bufferLength, remoteName, true), 100);
+    // Buffer loop.
+    setTimeout(this.rawInput(keycode, bufferLength, remoteName, true), this.loopSpeed);
   }
 
   apiRequest(endpoint, keycode, callback) {
