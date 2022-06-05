@@ -47,18 +47,24 @@ class irControllerSystem {
     // Log the event.
     console.log(Date.now() + ': ' + keycode + 'called from ' + remoteName + ' with buffer length of ' + bufferLength + 'ms with bufferloop = ' + bufferLoop);
 
-    // Record this as the most recent keyEvent
-    if (bufferLoop === false) {
-      this.lastKeyEvent = {
-        time: Date.now(),
-        code: keycode
-      }
-    }
-
     console.log(Date.now() + ' vs ' + (this.lastKeyEvent.time + this.loopSpeed));
-    if (Date.now() < this.lastKeyEvent.time + this.loopSpeed && bufferLoop === false) {
-      console.log('ignoring');
-      return; // stop.
+
+    if (bufferLoop === false) {
+      if (Date.now() < this.lastKeyEvent.time + this.loopSpeed) {
+        const stop = true;
+      }
+
+      // Record this as the most recent keyEvent
+      if (bufferLoop === false) {
+        this.lastKeyEvent = {
+          time: Date.now(),
+          code: keycode
+        }
+      }
+
+      if (stop) {
+        return;
+      }
     }
 
     // First, Check if this is a fast duplicate. 90ms is impossibly fast for a human to double-tap.
@@ -88,7 +94,7 @@ class irControllerSystem {
 
     // Buffer loop.
     let self = this;
-    setTimeout(function() {
+    setTimeout(function () {
       self.rawInput(keycode, bufferLength, remoteName, true);
       console.log('Buffer Loop');
     }, this.loopSpeed);
