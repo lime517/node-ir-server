@@ -78,12 +78,21 @@ class irControllerSystem {
 
     // Buffer loop.
     if (bufferLoop === true && Date.now() < this.lastKeyEvent.time + this.loopSpeed + this.gapSpeed) {
-      this.repeatCount++;
+      console.log('Buffer Loop');
+
+      // First loop exception
       let self = this;
-      setTimeout(function () {
-        self.rawInput(keycode, bufferLength, remoteName, true);
-        console.log('Buffer Loop');
-      }, this.loopSpeed);
+      if (this.repeatCount === 0) {
+        setTimeout(function () {
+          self.rawInput(keycode, bufferLength, remoteName, true);
+        }, 300);
+      } else {
+        setTimeout(function () {
+          self.rawInput(keycode, bufferLength, remoteName, true);
+        }, this.loopSpeed);
+      }
+
+      this.repeatCount++;
 
       console.log(this.repeatCount);
     } else {
