@@ -105,9 +105,9 @@ let irController = new irControllerSystem();
 const remotes = {
   chromeCastRemote: {
     systemBuffer: 90,
-    volumeUp: 1026,
-    volumeDown: 1027,
-    volumeMute: 1033
+    volumeUp: 753,
+    volumeDown: 754,
+    volumeMute: 752
   },
   lgRemote: {
     systemBuffer: 90,
