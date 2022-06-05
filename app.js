@@ -1,18 +1,46 @@
-// var http = require('http');
-// var server = http.createServer(function (request, response) { response.writeHead(200, { "Content-Type": "text/plain" });
-// response.end("Hi Kaitie!\n"); }); server.listen(8000);
-// console.log("Server running at http://127.0.0.1:8000/");
-
 /*
-input-event attempt - HELL YES IT WORKS! :D
+## How I got IR working
+First, I followed this tutorial: peppe8o.com/setup-raspberry-pi-infrared-remote-from-terminal
+I'm not *quite* following the tutorial above. Instead I'm reading from the IR-Keytable device directly and NOT remapping to standard keys.
+Then I followed this tutorial to run a script as a service at startup: thedigitalpictureframe.com/ultimate-guide-systemd-autostart-scripts-raspberry-pi
+
 To identify what /dev/input device to use, you can use # ls -l /dev/input to list all devices, and # ir-keytable to see what IR devices are available.
 
-Other remote keycodes (for LG OLED)
+// KEYCODES
+
+Chromecast set to Denon Receiver:
 Volume Up   = 1026
-Volume Up   = 1027
+Volume Down = 1027
 Mute        = 1033
 Input       = 1035
 Power       = 1032
+
+Yamaha/LG Generic Universal Remote:
+Sony 4k Player:
+Volume Up   = 31258
+Volume Down = 31259
+Mute        = 31260
+
+Sony 4k Player:
+Volume Up   = 65554
+Volume Down = 65555
+Mute        = 65556
+
+// I'm not actually using any of the below. Instead I'm reading from the IR-Keytable device directly and not remapping to standard keys.
+Chromecast set to Denon Receiver:
+Volume Up: lirc protocol(nec): scancode = 0x402
+Volume Down: lirc protocol(nec): scancode = 0x403
+Mute: lirc protocol(nec): scancode = 0x409
+
+Yamaha/LG Generic Universal Remote
+Volume Up: lirc protocol(nec): scancode = 0x7a1b
+Volume Down: lirc protocol(nec): scancode = 0x7a1b
+Mute: lirc protocol(nec): scancode = 0x7a1c
+
+Sony 4k Player:
+Up: lirc protocol(sony12): scancode = 0x10012
+Down: lirc protocol(sony12): scancode = 0x10013
+Mute: lirc protocol(sony12): scancode = 0x10014
 */
 
 // Utilities
@@ -26,6 +54,25 @@ const parser = new XMLParser({
   allowBooleanAttributes: true,
 });
 const axios = require("axios").default;
+
+const volumeUpKeys = [
+  1026,
+  31258,
+  65554
+];
+
+const volumeDownKeys = [
+  1027,
+  31259,
+  65555
+];
+
+const muteKeys = [
+  1033,
+  31260,
+  65556
+];
+
 
 // Our controller that passes on HTTP requests, etc
 class irControllerSystem {
@@ -120,17 +167,17 @@ if (noIr === false) {
     console.log(buffer); // Log *everything*
 
     // Volume up
-    if (buffer.type === 4 && buffer.code === 4 && buffer.value === 1026) {
+    if (buffer.type === 4 && buffer.code === 4 && volumeUpKeys.includes(buffer.value)) {
         irController.rawInput("volumeUp");
     }
 
     // Volume down
-    if (buffer.type === 4 && buffer.code === 4 && buffer.value === 1027) {
+    if (buffer.type === 4 && buffer.code === 4 && volumeDownKeys.includes(buffer.value)) {
         irController.rawInput("volumeDown");
     }
 
     // Mute
-    if (buffer.type === 4 && buffer.code === 4 && buffer.value === 1033) {
+    if (buffer.type === 4 && buffer.code === 4 && volumeMuteKeys.includes(buffer.value)) {
       irController.rawInput("mute");
     }
   });
