@@ -45,7 +45,7 @@ class irControllerSystem {
   */
   rawInput(keycode, bufferLength, remoteName, bufferLoop) {
     // Log the event.
-    console.log(Date.now() + ': ' + keycode + 'called from ' + remoteName + ' with buffer length of ' + bufferLength + 'ms');
+    console.log(Date.now() + ': ' + keycode + 'called from ' + remoteName + ' with buffer length of ' + bufferLength + 'ms with bufferloop = ' + bufferLoop);
 
     // Record this as the most recent keyEvent
     if (bufferLoop === false) {
