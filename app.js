@@ -121,7 +121,7 @@ class irControllerSystem {
   }
 
   volumeChange(direction) {
-    console.log("Volume " + direction + " Change Called");
+    //console.log("Volume " + direction + " Change Called");
     let amount = 0;
     if (direction == "up") {
       amount = 1;
@@ -129,7 +129,7 @@ class irControllerSystem {
       amount = -1;
     }
     this.apiRequest("Volume?db=" + amount).then(function (response) {
-      console.log('volume adjusted');
+      //console.log('volume adjusted');
     });
     // console.log(this.currentMuteState);
     // this.apiRequest("/");
