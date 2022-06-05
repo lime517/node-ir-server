@@ -35,6 +35,7 @@ class irControllerSystem {
     }
     this.loopSpeed = 100
     this.gapSpeed = 50;
+    this.repeatCount = 0;
   }
 
   /*
@@ -77,12 +78,14 @@ class irControllerSystem {
 
     // Buffer loop.
     if (bufferLoop === true && Date.now() < this.lastKeyEvent.time + this.loopSpeed + this.gapSpeed) {
+      this.repeatCount++;
       let self = this;
       setTimeout(function () {
         self.rawInput(keycode, bufferLength, remoteName, true);
         console.log('Buffer Loop');
       }, this.loopSpeed);
     } else {
+      this.repeatCount = 0;
       console.log('Buffer loop event did not meet criteria. Not setting repeat event.');
     }
     // First, Check if this is a fast duplicate. 90ms is impossibly fast for a human to double-tap.
