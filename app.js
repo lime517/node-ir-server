@@ -105,12 +105,12 @@ class irControllerSystem {
   }
 
   mute() {
-    console.log("mute function called");
+    //console.log("mute function called");
     const self = this;
     this.apiRequest("Volume").then(function (response) {
       const isMuted =
         parser.parse(response.data).volume.mute == "1" ? true : false;
-      console.log(isMuted);
+      //console.log(isMuted);
 
       if (isMuted) {
         self.apiRequest("Volume?mute=0");
