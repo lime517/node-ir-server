@@ -89,7 +89,8 @@ class irControllerSystem {
     this.lastNewKeypress = Date.now();
 
     // Buffer loop.
-    setTimeout(this.rawInput(keycode, bufferLength, remoteName, true), this.loopSpeed);
+    let self = this;
+    setTimeout(self.rawInput(keycode, bufferLength, remoteName, true), this.loopSpeed);
   }
 
   apiRequest(endpoint, keycode, callback) {
