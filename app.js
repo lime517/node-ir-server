@@ -76,7 +76,7 @@ class irControllerSystem {
     }
 
     // Buffer loop.
-    if (bufferLoop === true && Date.now() < this.lastKeyEvent.time + this.gapSpeed) {
+    if (bufferLoop === true && Date.now() < this.lastKeyEvent.time + this.loopSpeed + this.gapSpeed) {
       let self = this;
       setTimeout(function () {
         self.rawInput(keycode, bufferLength, remoteName, true);
