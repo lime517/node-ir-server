@@ -148,7 +148,7 @@ const volumeDownKeys = [
   65555
 ];
 
-const muteKeys = [
+const volumeMuteKeys = [
   1033,
   31260,
   65556
