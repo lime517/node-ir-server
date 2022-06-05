@@ -170,9 +170,10 @@ if (noIr === false) {
 
     // Set up inputs. 
     if (buffer.type === 4 && buffer.code === 4) {
-      remotes.keys(obj).forEach(key => {
-        obj.keys(subObj).forEach(subKey => {
-          if(subKey === buffer.value) {
+      Object.keys(remotes).forEach(key => {
+        Object.keys(remotes[key]).forEach(subKey => {
+          var remote = remotes[key];
+          if(remote[subKey] === buffer.value) {
             irController.rawInput(subObj, obj.systemBuffer);
           }
         });       
