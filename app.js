@@ -76,12 +76,6 @@ class irControllerSystem {
       }
     } else { 
       // This is bufferloop-invoked
-      // Buffer loop. (This is repeat code. I should really put it into it's own function but I'm too tired to deal with that rn)
-      let self = this;
-      setTimeout(function () {
-        self.rawInput(keycode, bufferLength, remoteName, true);
-        console.log('Buffer Loop');
-      }, this.loopSpeed);
     }
 
     // First, Check if this is a fast duplicate. 90ms is impossibly fast for a human to double-tap.
