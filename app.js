@@ -55,7 +55,7 @@ class irControllerSystem {
       }
     }
 
-    if (Date.now() < this.lastKeyEvent.time + this.loopSpeed) {
+    if (Date.now() < this.lastKeyEvent.time + this.loopSpeed && bufferLoop === false) {
       console.log('ignoring');
       return; // stop.
     }
