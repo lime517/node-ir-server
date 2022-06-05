@@ -48,8 +48,6 @@ class irControllerSystem {
     // Log the event.
     console.log(Date.now() + ': ' + keycode + 'called from ' + remoteName + ' with buffer length of ' + bufferLength + 'ms with bufferloop = ' + bufferLoop);
 
-    console.log(Date.now() + ' vs ' + (this.lastKeyEvent.time + this.loopSpeed));
-
     if (bufferLoop === false) {
       var stop = false;
 
@@ -92,7 +90,7 @@ class irControllerSystem {
     //   console.log("Event allowed", Date.now(), this.lastNewKeypress);
     // }
 
-    console.log('Running with invocation from bufferloop = ' + bufferLoop);
+    console.log(Date.now() + ': Running with invocation from bufferloop = ' + bufferLoop);
     // Otherwise, carry on.
     switch (keycode) {
       case "volumeMute":
