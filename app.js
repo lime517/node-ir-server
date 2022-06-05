@@ -34,6 +34,7 @@ class irControllerSystem {
       code: 0
     }
     this.loopSpeed = 100
+    this.gapSpeed = 75;
   }
 
   /*
@@ -52,7 +53,7 @@ class irControllerSystem {
     if (bufferLoop === false) {
       var stop = false;
 
-      if (Date.now() < this.lastKeyEvent.time + this.loopSpeed) {
+      if (Date.now() < this.lastKeyEvent.time + this.loopSpeed + this.gapSpeed) {
         stop = true;
       } else {
         // Buffer loop.
@@ -64,11 +65,9 @@ class irControllerSystem {
       }
 
       // Record this as the most recent keyEvent
-      if (bufferLoop === false) {
-        this.lastKeyEvent = {
-          time: Date.now(),
-          code: keycode
-        }
+      this.lastKeyEvent = {
+        time: Date.now(),
+        code: keycode
       }
 
       if (stop) {
@@ -76,8 +75,8 @@ class irControllerSystem {
       }
     }
 
+    // Buffer loop.
     if (bufferLoop === true && Date.now() < this.lastKeyEvent.time + this.loopSpeed) {
-      // Buffer loop.
       let self = this;
       setTimeout(function () {
         self.rawInput(keycode, bufferLength, remoteName, true);
