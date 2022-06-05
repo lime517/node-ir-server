@@ -90,10 +90,11 @@ class irControllerSystem {
       this.repeatCount++;
 
       console.log(this.repeatCount);
+    } else if (this.repeatCount > 1) {
+      this.repeatCount = 0;
+      return;
     } else {
       this.repeatCount = 0;
-      console.log('Buffer loop event did not meet criteria. Not setting repeat event.');
-      return;
     }
     // First, Check if this is a fast duplicate. 90ms is impossibly fast for a human to double-tap.
     // if (Date.now() < this.lastNewKeypress + bufferLength) {
