@@ -8,6 +8,7 @@ To identify what /dev/input device to use, you can use # ls -l /dev/input to lis
 
 To restart the service run:
 sudo systemctl restart node-ir-server.service
+
 */
 
 // Utilities
@@ -28,16 +29,49 @@ class irControllerSystem {
     this.lastNewKeypress = 0;
     this.apiBase = "http://m10.local:11000/";
     this.currentMuteState = 0;
+    this.lastKeyEvent = {
+      time: 0,
+      code: 0
+    }
+    this.repeatTimer = {
+      0
+    }
   }
 
-  rawInput(keycode, bufferLength, remoteName) {
-    // First, Check if this is a fast duplicate. 90ms is impossibly fast for a human to double-tap.
-    if (Date.now() < this.lastNewKeypress + bufferLength) {
-      console.log("Event blocked", Date.now(), this.lastNewKeypress);
-      return; // do nothing. Just straight up ignore this.
-    } else {
-      console.log("Event allowed", Date.now(), this.lastNewKeypress);
+  /*
+    TBA
+    keycode:
+    bufferLength:
+    remoteName:
+    self: False if originated from an actual ir-remote, true of triggered by the rawInput function (buffer loop system).
+  */
+  rawInput(keycode, bufferLength, remoteName, self) {
+    // Log the event.
+    console.log(Date.now() + ': ' + keycode + 'called from ' + remoteName + ' with buffer length of ' + bufferLength + 'ms');
+
+    // Record this as the most recent keyEvent
+    if (self === false) {
+      this.lastKeyEvent = {
+        time: Date.now(),
+        code: keycode
+      }
     }
+
+    // Was this a self-triggered buffer-loop event?
+    if (self === true) {
+      // should this run?
+      if (Date.now() > this.lastKeyEvent.time + 100) {
+        return; // stop.
+      }
+    }
+
+    // First, Check if this is a fast duplicate. 90ms is impossibly fast for a human to double-tap.
+    // if (Date.now() < this.lastNewKeypress + bufferLength) {
+    //   console.log("Event blocked", Date.now(), this.lastNewKeypress);
+    //   return; // do nothing. Just straight up ignore this.
+    // } else {
+    //   console.log("Event allowed", Date.now(), this.lastNewKeypress);
+    // }
 
     // Otherwise, carry on.
     switch (keycode) {
@@ -56,7 +90,7 @@ class irControllerSystem {
 
     this.lastNewKeypress = Date.now();
 
-    console.log(Date.now() + ': ' + keycode + 'called from ' + remoteName + ' with buffer length of ' + bufferLength + 'ms');
+    setTimeout(this.rawInput(keycode, bufferLength, remoteName, true), 100);
   }
 
   apiRequest(endpoint, keycode, callback) {
@@ -65,16 +99,14 @@ class irControllerSystem {
   }
 
   apiResponseCallback(keycode) {
-    console.log("Succesful request");
+    console.log("Successful request");
   }
 
   mute() {
-    //console.log("mute function called");
     const self = this;
     this.apiRequest("Volume").then(function (response) {
       const isMuted =
         parser.parse(response.data).volume.mute == "1" ? true : false;
-      //console.log(isMuted);
 
       if (isMuted) {
         self.apiRequest("Volume?mute=0");
@@ -85,7 +117,6 @@ class irControllerSystem {
   }
 
   volumeChange(direction) {
-    //console.log("Volume " + direction + " Change Called");
     let amount = 0;
     if (direction == "up") {
       amount = 1;
@@ -95,8 +126,6 @@ class irControllerSystem {
     this.apiRequest("Volume?db=" + amount).then(function (response) {
       //console.log('volume adjusted');
     });
-    // console.log(this.currentMuteState);
-    // this.apiRequest("/");
   }
 }
 
@@ -140,7 +169,7 @@ if (noIr === false) {
         Object.keys(remotes[key]).forEach(subKey => {
           var remote = remotes[key];
           if (remote[subKey] === buffer.value) {
-            irController.rawInput(subKey, remote.systemBuffer, key);
+            irController.rawInput(subKey, remote.systemBuffer, key, false);
           }
         });
       });
