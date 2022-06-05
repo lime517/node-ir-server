@@ -43,12 +43,12 @@ class irControllerSystem {
     remoteName:
     self: False if originated from an actual ir-remote, true of triggered by the rawInput function (buffer loop system).
   */
-  rawInput(keycode, bufferLength, remoteName, self) {
+  rawInput(keycode, bufferLength, remoteName, bufferLoop) {
     // Log the event.
     console.log(Date.now() + ': ' + keycode + 'called from ' + remoteName + ' with buffer length of ' + bufferLength + 'ms');
 
     // Record this as the most recent keyEvent
-    if (self === false) {
+    if (bufferLoop === false) {
       this.lastKeyEvent = {
         time: Date.now(),
         code: keycode
@@ -56,7 +56,7 @@ class irControllerSystem {
     }
 
     // Was this a self-triggered buffer-loop event?
-    if (self === true) {
+    if (bufferLoop === true) {
       // should this run?
       if (Date.now() > this.lastKeyEvent.time + this.loopSpeed) {
         return; // stop.
