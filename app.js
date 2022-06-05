@@ -139,19 +139,19 @@ class irControllerSystem {
 let irController = new irControllerSystem();
 
 const remotes = {
-  sonyRemote: {
-    systemBuffer: 125,
+  chromeCastRemote: {
+    systemBuffer: 90,
     volumeUp: 1026,
     volumeDown: 1027,
     volumeMute: 1033
   },
-  chromeCastRemote: {
-    systemBuffer: 90,
+  lgRemote: {
+    systemBuffer: 125,
     volumeUp: 31258,
     volumeDown: 31259,
     volumeMute: 31260
   },
-  lgRemote: {
+  sonyRemote: {
     systemBuffer: 90,
     volumeUp: 65554,
     volumeDown: 65555,
