@@ -51,9 +51,16 @@ class irControllerSystem {
 
     if (bufferLoop === false) {
       var stop = false;
-      
+
       if (Date.now() < this.lastKeyEvent.time + this.loopSpeed) {
         stop = true;
+      } else {
+        // Buffer loop.
+        let self = this;
+        setTimeout(function () {
+          self.rawInput(keycode, bufferLength, remoteName, true);
+          console.log('Buffer Loop');
+        }, this.loopSpeed);
       }
 
       // Record this as the most recent keyEvent
@@ -67,6 +74,14 @@ class irControllerSystem {
       if (stop) {
         return;
       }
+    } else { 
+      // This is bufferloop-invoked
+      // Buffer loop. (This is repeat code. I should really put it into it's own function but I'm too tired to deal with that rn)
+      let self = this;
+      setTimeout(function () {
+        self.rawInput(keycode, bufferLength, remoteName, true);
+        console.log('Buffer Loop');
+      }, this.loopSpeed);
     }
 
     // First, Check if this is a fast duplicate. 90ms is impossibly fast for a human to double-tap.
@@ -93,13 +108,6 @@ class irControllerSystem {
     }
 
     this.lastNewKeypress = Date.now();
-
-    // Buffer loop.
-    let self = this;
-    setTimeout(function () {
-      self.rawInput(keycode, bufferLength, remoteName, true);
-      console.log('Buffer Loop');
-    }, this.loopSpeed);
   }
 
   apiRequest(endpoint, keycode, callback) {
