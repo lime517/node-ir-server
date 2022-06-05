@@ -55,13 +55,7 @@ class irControllerSystem {
       }
     }
 
-    // Was this a self-triggered buffer-loop event?
-    if (bufferLoop === true) {
-      // should this run?
-
-    }
-
-    if (Date.now() > this.lastKeyEvent.time + this.loopSpeed) {
+    if (Date.now() < this.lastKeyEvent.time + this.loopSpeed) {
       console.log('ignoring');
       return; // stop.
     }
