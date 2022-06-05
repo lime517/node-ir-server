@@ -77,7 +77,7 @@ class irControllerSystem {
 
     // Otherwise, carry on.
     switch (keycode) {
-      case "mute":
+      case "volumeMute":
         this.mute();
         break;
       case "volumeUp":
