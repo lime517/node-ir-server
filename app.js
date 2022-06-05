@@ -66,13 +66,13 @@ class irControllerSystem {
     this.currentMuteState = 0;
   }
 
-  rawInput(keycode, bufferLength = 125) {
+  rawInput(keycode, bufferLength, remoteName) {
     // First, Check if this is a fast duplicate. 90ms is impossibly fast for a human to double-tap.
     if (Date.now() < this.lastNewKeypress + bufferLength) {
-      console.log("skipping", Date.now(), this.lastNewKeypress);
+      console.log("Event blocked", Date.now(), this.lastNewKeypress);
       return; // do nothing. Just straight up ignore this.
     } else {
-      console.log("happening", Date.now(), this.lastNewKeypress);
+      console.log("Event allowed", Date.now(), this.lastNewKeypress);
     }
 
     // Otherwise, carry on.
@@ -91,6 +91,8 @@ class irControllerSystem {
     }
 
     this.lastNewKeypress = Date.now();
+
+    console.log(Date.now() + ': ' + keycode + 'called from ' + remoteName + '.');
   }
 
   apiRequest(endpoint, keycode, callback) {
@@ -166,34 +168,19 @@ if (noIr === false) {
   const keyboard = new InputEvent.Keyboard(input);
 
   keyboard.on("data", function (buffer) {
-    console.log(buffer); // Log *everything*
+    //console.log(buffer); // Log *everything* Useful for discovering IR keycodes
 
     // Set up inputs. 
     if (buffer.type === 4 && buffer.code === 4) {
       Object.keys(remotes).forEach(key => {
         Object.keys(remotes[key]).forEach(subKey => {
           var remote = remotes[key];
-          if(remote[subKey] === buffer.value) {
-            irController.rawInput(subKey, remote.systemBuffer);
+          if (remote[subKey] === buffer.value) {
+            irController.rawInput(subKey, remote.systemBuffer, key);
           }
-        });       
+        });
       });
-      
-  }
 
-    // // Volume up
-    // if (buffer.type === 4 && buffer.code === 4 && volumeUpKeys.includes(buffer.value)) {
-    //     irController.rawInput("volumeUp");
-    // }
-
-    // // Volume down
-    // if (buffer.type === 4 && buffer.code === 4 && volumeDownKeys.includes(buffer.value)) {
-    //     irController.rawInput("volumeDown");
-    // }
-
-    // // Mute
-    // if (buffer.type === 4 && buffer.code === 4 && volumeMuteKeys.includes(buffer.value)) {
-    //   irController.rawInput("mute");
-    // }
+    }
   });
 }
