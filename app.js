@@ -50,8 +50,10 @@ class irControllerSystem {
     console.log(Date.now() + ' vs ' + (this.lastKeyEvent.time + this.loopSpeed));
 
     if (bufferLoop === false) {
+      var stop = false;
+      
       if (Date.now() < this.lastKeyEvent.time + this.loopSpeed) {
-        const stop = true;
+        stop = true;
       }
 
       // Record this as the most recent keyEvent
