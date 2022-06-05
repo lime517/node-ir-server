@@ -84,6 +84,8 @@ class irControllerSystem {
         self.rawInput(keycode, bufferLength, remoteName, true);
         console.log('Buffer Loop');
       }, this.loopSpeed);
+
+      console.log(this.repeatCount);
     } else {
       this.repeatCount = 0;
       console.log('Buffer loop event did not meet criteria. Not setting repeat event.');
