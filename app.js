@@ -6,6 +6,9 @@ Then I followed this tutorial to run a script as a service at startup: thedigita
 
 To identify what /dev/input device to use, you can use # ls -l /dev/input to list all devices, and # ir-keytable to see what IR devices are available.
 
+To restart the service, run:
+
+
 // KEYCODES
 
 Chromecast set to Denon Receiver:
@@ -54,25 +57,6 @@ const parser = new XMLParser({
   allowBooleanAttributes: true,
 });
 const axios = require("axios").default;
-
-const volumeUpKeys = [
-  1026,
-  31258,
-  65554
-];
-
-const volumeDownKeys = [
-  1027,
-  31259,
-  65555
-];
-
-const muteKeys = [
-  1033,
-  31260,
-  65556
-];
-
 
 // Our controller that passes on HTTP requests, etc
 class irControllerSystem {
@@ -152,8 +136,23 @@ class irControllerSystem {
 
 let irController = new irControllerSystem();
 
-// Testing
-//irController.rawInput("mute");
+const volumeUpKeys = [
+  1026,
+  31258,
+  65554
+];
+
+const volumeDownKeys = [
+  1027,
+  31259,
+  65555
+];
+
+const muteKeys = [
+  1033,
+  31260,
+  65556
+];
 
 // Do Stuff on input
 const noIr = false; // local dev?
