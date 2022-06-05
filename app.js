@@ -90,7 +90,9 @@ class irControllerSystem {
 
     // Buffer loop.
     let self = this;
-    setTimeout(self.rawInput(keycode, bufferLength, remoteName, true), this.loopSpeed);
+    setTimeout(function() {
+      self.rawInput(keycode, bufferLength, remoteName, true);
+    }, this.loopSpeed);
   }
 
   apiRequest(endpoint, keycode, callback) {
