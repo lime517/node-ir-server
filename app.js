@@ -146,13 +146,13 @@ const remotes = {
     volumeMute: 1033
   },
   lgRemote: {
-    systemBuffer: 125,
+    systemBuffer: 90,
     volumeUp: 31258,
     volumeDown: 31259,
     volumeMute: 31260
   },
   sonyRemote: {
-    systemBuffer: 90,
+    systemBuffer: 125,
     volumeUp: 65554,
     volumeDown: 65555,
     volumeMute: 65556
