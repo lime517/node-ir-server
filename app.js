@@ -68,7 +68,7 @@ class irControllerSystem {
 
   rawInput(keycode) {
     // First, Check if this is a fast duplicate. 90ms is impossibly fast for a human to double-tap.
-    if (Date.now() < this.lastNewKeypress + 100) {
+    if (Date.now() < this.lastNewKeypress + 120) {
       console.log("skipping", Date.now(), this.lastNewKeypress);
       return; // do nothing. Just straight up ignore this.
     } else {
