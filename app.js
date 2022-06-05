@@ -174,7 +174,7 @@ if (noIr === false) {
         Object.keys(remotes[key]).forEach(subKey => {
           var remote = remotes[key];
           if(remote[subKey] === buffer.value) {
-            irController.rawInput(subObj, obj.systemBuffer);
+            irController.rawInput(subKey, remote.systemBuffer);
           }
         });       
       });
