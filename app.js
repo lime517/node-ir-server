@@ -58,10 +58,12 @@ class irControllerSystem {
     // Was this a self-triggered buffer-loop event?
     if (bufferLoop === true) {
       // should this run?
-      if (Date.now() > this.lastKeyEvent.time + this.loopSpeed) {
-        console.log('ignoring');
-        return; // stop.
-      }
+
+    }
+
+    if (Date.now() > this.lastKeyEvent.time + this.loopSpeed) {
+      console.log('ignoring');
+      return; // stop.
     }
 
     // First, Check if this is a fast duplicate. 90ms is impossibly fast for a human to double-tap.
