@@ -74,10 +74,16 @@ class irControllerSystem {
       if (stop) {
         return;
       }
-    } else { 
-      // This is bufferloop-invoked
     }
 
+    if (bufferLoop === true && Date.now() < this.lastKeyEvent.time + this.loopSpeed) {
+      // Buffer loop.
+      let self = this;
+      setTimeout(function () {
+        self.rawInput(keycode, bufferLength, remoteName, true);
+        console.log('Buffer Loop');
+      }, this.loopSpeed);
+    }
     // First, Check if this is a fast duplicate. 90ms is impossibly fast for a human to double-tap.
     // if (Date.now() < this.lastNewKeypress + bufferLength) {
     //   console.log("Event blocked", Date.now(), this.lastNewKeypress);
