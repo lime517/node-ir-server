@@ -82,15 +82,10 @@ class irControllerSystem {
 
       // First loop exception
       let self = this;
-      if (this.repeatCount === 0) {
-        setTimeout(function () {
-          self.rawInput(keycode, bufferLength, remoteName, true);
-        }, 300);
-      } else {
-        setTimeout(function () {
-          self.rawInput(keycode, bufferLength, remoteName, true);
-        }, this.loopSpeed);
-      }
+
+      setTimeout(function () {
+        self.rawInput(keycode, bufferLength, remoteName, true);
+      }, this.loopSpeed);
 
       this.repeatCount++;
 
