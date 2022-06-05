@@ -6,44 +6,8 @@ Then I followed this tutorial to run a script as a service at startup: thedigita
 
 To identify what /dev/input device to use, you can use # ls -l /dev/input to list all devices, and # ir-keytable to see what IR devices are available.
 
-To restart the service, run:
-
-
-// KEYCODES
-
-Chromecast set to Denon Receiver:
-Volume Up   = 1026
-Volume Down = 1027
-Mute        = 1033
-Input       = 1035
-Power       = 1032
-
-Yamaha/LG Generic Universal Remote:
-Sony 4k Player:
-Volume Up   = 31258
-Volume Down = 31259
-Mute        = 31260
-
-Sony 4k Player:
-Volume Up   = 65554
-Volume Down = 65555
-Mute        = 65556
-
-// I'm not actually using any of the below. Instead I'm reading from the IR-Keytable device directly and not remapping to standard keys.
-Chromecast set to Denon Receiver:
-Volume Up: lirc protocol(nec): scancode = 0x402
-Volume Down: lirc protocol(nec): scancode = 0x403
-Mute: lirc protocol(nec): scancode = 0x409
-
-Yamaha/LG Generic Universal Remote
-Volume Up: lirc protocol(nec): scancode = 0x7a1b
-Volume Down: lirc protocol(nec): scancode = 0x7a1b
-Mute: lirc protocol(nec): scancode = 0x7a1c
-
-Sony 4k Player:
-Up: lirc protocol(sony12): scancode = 0x10012
-Down: lirc protocol(sony12): scancode = 0x10013
-Mute: lirc protocol(sony12): scancode = 0x10014
+To restart the service run:
+sudo systemctl restart node-ir-server.service
 */
 
 // Utilities
@@ -168,7 +132,7 @@ if (noIr === false) {
   const keyboard = new InputEvent.Keyboard(input);
 
   keyboard.on("data", function (buffer) {
-    //console.log(buffer); // Log *everything* Useful for discovering IR keycodes
+    console.log(buffer); // Log *everything* Useful for discovering IR keycodes
 
     // Set up inputs. 
     if (buffer.type === 4 && buffer.code === 4) {
