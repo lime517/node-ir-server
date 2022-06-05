@@ -34,7 +34,7 @@ class irControllerSystem {
       code: 0
     }
     this.loopSpeed = 100
-    this.gapSpeed = 75;
+    this.gapSpeed = 100;
   }
 
   /*
@@ -61,7 +61,7 @@ class irControllerSystem {
         setTimeout(function () {
           self.rawInput(keycode, bufferLength, remoteName, true);
           console.log('Buffer Loop');
-        }, this.loopSpeed);
+        }, this.loopSpeed + this.gapSpeed);
       }
 
       // Record this as the most recent keyEvent
@@ -91,7 +91,7 @@ class irControllerSystem {
     //   console.log("Event allowed", Date.now(), this.lastNewKeypress);
     // }
 
-    console.log('Running with invocation bufferloop = ' + bufferLoop);
+    console.log('Running with invocation from bufferloop = ' + bufferLoop);
     // Otherwise, carry on.
     switch (keycode) {
       case "volumeMute":
