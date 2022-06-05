@@ -76,7 +76,7 @@ class irControllerSystem {
     }
 
     // Buffer loop.
-    if (bufferLoop === true && Date.now() < this.lastKeyEvent.time + this.loopSpeed) {
+    if (bufferLoop === true && Date.now() < this.lastKeyEvent.time + this.loopSpeed + this.gapSpeed) {
       let self = this;
       setTimeout(function () {
         self.rawInput(keycode, bufferLength, remoteName, true);
@@ -91,6 +91,7 @@ class irControllerSystem {
     //   console.log("Event allowed", Date.now(), this.lastNewKeypress);
     // }
 
+    console.log('Running with invocation bufferloop = ' + bufferLoop);
     // Otherwise, carry on.
     switch (keycode) {
       case "volumeMute":
