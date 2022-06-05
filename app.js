@@ -59,6 +59,7 @@ class irControllerSystem {
     if (bufferLoop === true) {
       // should this run?
       if (Date.now() > this.lastKeyEvent.time + this.loopSpeed) {
+        console.log('ignoring');
         return; // stop.
       }
     }
