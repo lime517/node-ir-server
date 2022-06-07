@@ -9,7 +9,12 @@ To identify what /dev/input device to use, you can use # ls -l /dev/input to lis
 To restart the service run:
 sudo systemctl restart node-ir-server.service
 
+View all IR inputs by running:
+sudo ir-keytable -v -t -p rc-5,rc-5-sz,jvc,sony,nec,sanyo,mce_kbd,rc-6,sharp,xmp
+
 */
+
+console.log('node-ir-server service started!');
 
 // Utilities
 const { XMLParser, XMLBuilder, XMLValidator } = require("fast-xml-parser");
@@ -77,7 +82,7 @@ class irControllerSystem {
     }
 
     // Buffer loop.
-    if (bufferLoop === true && Date.now() < this.lastKeyEvent.time + this.loopSpeed + this.gapSpeed) {
+    if (bufferLoop === true && Date.now() < this.lastKeyEvent.time + this.loopSpeed) {
       console.log('Buffer Loop');
 
       // First loop exception
