@@ -193,7 +193,7 @@ const remotes = {
     volumeMute: 31260
   },
   sonyRemote: {
-    systemBuffer: 200, // this thing repeats so fast that we need to account for it.
+    systemBuffer: 200, // Delay starting repeat commands (holding down a button) by 200ms
     volumeUp: 65554,
     volumeDown: 65555,
     volumeMute: 65556
