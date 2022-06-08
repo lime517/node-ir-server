@@ -38,7 +38,7 @@ class irControllerSystem {
       time: 0,
       code: 0
     }
-    this.loopSpeed = 100
+    this.loopSpeed = 200
     this.repeatCount = 0;
   }
 
@@ -53,19 +53,22 @@ class irControllerSystem {
     // Log the event.
     console.log(Date.now() + ': ' + keycode + 'called from ' + remoteName + ' with buffer length of ' + bufferLength + 'ms with bufferloop = ' + bufferLoop);
 
-    if (bufferLoop === false) {
+    // Was this from an actual input? Or just a looped event?
+    if (bufferLoop === false) { // Actual input
       var stop = false;
 
-      if (Date.now() < this.lastKeyEvent.time + this.loopSpeed) {
-        stop = true;
+      // Are we within the gap window?
+      if (Date.now() < this.lastKeyEvent.time + (this.loopSpeed) ) {
+        stop = true; // We're within a gap of the last IR event. Don't actually send an API call.
       } else {
+        // Continue on.
         // Buffer loop.
         console.log('invoking buffer loop from IR event');
         let self = this;
         setTimeout(function () {
           self.rawInput(keycode, bufferLength, remoteName, true);
           console.log('Buffer Loop');
-        }, this.loopSpeed + this.gapSpeed);
+        }, this.loopSpeed);
       }
 
       // Record this as the most recent keyEvent
@@ -86,30 +89,20 @@ class irControllerSystem {
 
       // First loop exception
       let self = this;
-
       setTimeout(function () {
         self.rawInput(keycode, bufferLength, remoteName, true);
-      }, this.loopSpeed * 2);
+      }, this.loopSpeed);
 
       this.repeatCount++;
 
       console.log(this.repeatCount);
-    } else if (this.repeatCount > 1) {
-      this.repeatCount = 0;
-      return;
     } else {
       this.repeatCount = 0;
+      return;
     }
-    // First, Check if this is a fast duplicate. 90ms is impossibly fast for a human to double-tap.
-    // if (Date.now() < this.lastNewKeypress + bufferLength) {
-    //   console.log("Event blocked", Date.now(), this.lastNewKeypress);
-    //   return; // do nothing. Just straight up ignore this.
-    // } else {
-    //   console.log("Event allowed", Date.now(), this.lastNewKeypress);
-    // }
 
     console.log(Date.now() + ': Running with invocation from bufferloop = ' + bufferLoop);
-    // Otherwise, carry on.
+    // Otherwise, carry on and send the API call.
     switch (keycode) {
       case "volumeMute":
         this.mute();
