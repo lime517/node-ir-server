@@ -89,7 +89,7 @@ class irControllerSystem {
 
       setTimeout(function () {
         self.rawInput(keycode, bufferLength, remoteName, true);
-      }, this.loopSpeed);
+      }, this.loopSpeed * 2);
 
       this.repeatCount++;
 
