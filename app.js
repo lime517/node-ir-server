@@ -86,7 +86,7 @@ class irControllerSystem {
 
     // Double bufferLoop prevention
     if(bufferLoop === true) {
-      if(this.lastBufferLoopEvent >= (Date.now() - this.loopSpeed + 1)) {
+      if(this.lastBufferLoopEvent > (Date.now() - this.loopSpeed + 5)) {
         console.log('🔴 DOUBLE BUFFER LOOP DETECTED AND STOPPED.');
         return;
       }
