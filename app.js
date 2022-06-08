@@ -38,7 +38,7 @@ class irControllerSystem {
       time: 0,
       code: 0
     }
-    this.loopSpeed = 200
+    this.loopSpeed = 150
     this.repeatCount = 0;
   }
 
@@ -81,7 +81,7 @@ class irControllerSystem {
         console.log('Stopping.')
         return;
       }
-    }
+    } // end 'bufferLoop === false' if statement.
 
     // Buffer loop.
     if (bufferLoop === true && Date.now() < this.lastKeyEvent.time + this.loopSpeed) {
