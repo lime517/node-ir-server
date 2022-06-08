@@ -47,13 +47,13 @@ class irControllerSystem {
   /*
     TBA
     keycode:
-    irRepeatTightness:
+    irRepeatDelay:
     remoteName:
     self: False if originated from an actual ir-remote, true of triggered by the rawInput function (buffer loop system).
   */
-  rawInput(keycode, irRepeatTightness, remoteName, bufferLoop) {
+  rawInput(keycode, irRepeatDelay, remoteName, bufferLoop) {
     // Log the event.
-    // console.log(Date.now() + ': ' + keycode + 'called from ' + remoteName + ' with buffer length of ' + irRepeatTightness + 'ms with bufferloop = ' + bufferLoop);
+    // console.log(Date.now() + ': ' + keycode + 'called from ' + remoteName + ' with buffer length of ' + irRepeatDelay + 'ms with bufferloop = ' + bufferLoop);
 
     // Was this from an actual input? Or just a looped event?
     if (bufferLoop === false) { // Actual input
@@ -68,8 +68,8 @@ class irControllerSystem {
         // console.log('invoking buffer loop from IR event');
         let self = this;
         setTimeout(function () {
-          self.rawInput(keycode, irRepeatTightness, remoteName, true);
-        }, this.loopSpeed);
+          self.rawInput(keycode, irRepeatDelay, remoteName, true);
+        }, this.loopSpeed + irRepeatDelay);
       }
 
       // Record this as the most recent keyEvent
@@ -94,9 +94,9 @@ class irControllerSystem {
     }
 
     // Buffer loop.
-    if (bufferLoop === true && Date.now() < this.lastKeyEvent.time + this.loopSpeed - irRepeatTightness) {
+    if (bufferLoop === true && Date.now() < this.lastKeyEvent.time + this.loopSpeed) {
       console.log('🟣 Buffer Loop Retrigger: ' + this.repeatCount);
-      console.log('🟣 IR Repeat Tightness: ' + irRepeatTightness);
+      console.log('🟣 IR Repeat Tightness: ' + irRepeatDelay);
 
       if (this.repeatCount > 10) {
         this.loopSpeed = this.loopSpeed * .7; // Long press? Change volume faster.
@@ -110,7 +110,7 @@ class irControllerSystem {
 
       let self = this;
       setTimeout(function () {
-        self.rawInput(keycode, irRepeatTightness, remoteName, true);
+        self.rawInput(keycode, irRepeatDelay, remoteName, true);
       }, repeatDelay);
 
       this.repeatCount++;
