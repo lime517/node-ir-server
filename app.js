@@ -96,7 +96,7 @@ class irControllerSystem {
     // Buffer loop.
     if (bufferLoop === true && Date.now() < this.lastKeyEvent.time + this.loopSpeed - irRepeatTightness) {
       console.log('🟣 Buffer Loop Retrigger: ' + this.repeatCount);
-      console.log('🟣 IR Repeat Tightness: ' + this.irRepeatTightness);
+      console.log('🟣 IR Repeat Tightness: ' + irRepeatTightness);
 
       if (this.repeatCount > 10) {
         this.loopSpeed = this.loopSpeed * .7; // Long press? Change volume faster.
