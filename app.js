@@ -38,7 +38,7 @@ class irControllerSystem {
       time: 0,
       code: 0
     }
-    this.loopSpeed = 150
+    this.loopSpeed = 125
     this.repeatCount = 0;
   }
 
