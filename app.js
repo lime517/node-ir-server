@@ -55,6 +55,7 @@ class irControllerSystem {
 
     // Was this from an actual input? Or just a looped event?
     if (bufferLoop === false) { // Actual input
+      console.log('🔵 IR input');
       var stop = false;
 
       // Are we within the gap window?
@@ -78,14 +79,14 @@ class irControllerSystem {
       }
 
       if (stop) {
-        console.log('Stopping.')
+        console.log('🟠 Stopping.')
         return;
       }
     } // end 'bufferLoop === false' if statement.
 
     // Buffer loop.
     if (bufferLoop === true && Date.now() < this.lastKeyEvent.time + this.loopSpeed) {
-      console.log('Buffer Loop');
+      console.log('🟣 Buffer Loop Retrigger');
 
       // First loop exception
       let self = this;
@@ -101,7 +102,7 @@ class irControllerSystem {
       return;
     }
 
-    console.log(Date.now() + ': Running with invocation from bufferloop = ' + bufferLoop);
+    console.log('🟢 ' + Date.now() + ': Running with invocation from bufferloop = ' + bufferLoop);
     // Otherwise, carry on and send the API call.
     switch (keycode) {
       case "volumeMute":
@@ -188,7 +189,7 @@ if (noIr === false) {
   const keyboard = new InputEvent.Keyboard(input);
 
   keyboard.on("data", function (buffer) {
-    console.log(buffer); // Log *everything* Useful for discovering IR keycodes
+    // console.log(buffer); // Log *everything* Useful for discovering IR keycodes
 
     // Set up inputs. 
     if (buffer.type === 4 && buffer.code === 4) {
