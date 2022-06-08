@@ -88,8 +88,8 @@ class irControllerSystem {
       console.log('🟣 Buffer Loop Retrigger');
 
       let repeatDelay = this.loopSpeed;
-      if (this.repeatCount > 15) {
-        repeatDelay = repeatDelay * .5; // Long press? Change volume faster.
+      if (this.repeatCount > 10) {
+        repeatDelay = repeatDelay * .75; // Long press? Change volume faster.
         console.log('🏎 fast repeat');
       }
 
