@@ -68,7 +68,6 @@ class irControllerSystem {
         let self = this;
         setTimeout(function () {
           self.rawInput(keycode, bufferLength, remoteName, true);
-          console.log('Buffer Loop');
         }, this.loopSpeed);
       }
 
