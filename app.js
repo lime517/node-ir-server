@@ -38,6 +38,7 @@ class irControllerSystem {
       time: 0,
       code: 0
     }
+    this.lastBufferLoopEvent = 0;
     this.loopSpeed = 125
     this.repeatCount = 0;
   }
@@ -82,6 +83,15 @@ class irControllerSystem {
         return;
       }
     } // end 'bufferLoop === false' if statement.
+
+    // Double bufferLoop prevention
+    if(bufferLoop === true) {
+      if(this.lastBufferLoopEvent > (Date.now() - this.loopSpeed + 1)) {
+        console.log('🔴 DOUBLE BUFFER LOOP DETECTED AND STOPPED.');
+        return;
+      }
+      this.lastBufferLoopEvent = Date.now();
+    }
 
     // Buffer loop.
     if (bufferLoop === true && Date.now() < this.lastKeyEvent.time + this.loopSpeed) {
