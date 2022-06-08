@@ -39,7 +39,8 @@ class irControllerSystem {
       code: 0
     }
     this.lastBufferLoopEvent = 0;
-    this.loopSpeed = 125
+    this.standardLoopSpeed = 125; // default loop speed.
+    this.loopSpeed = this.standardLoopSpeed; // variable loop speed
     this.repeatCount = 0;
   }
 
@@ -63,8 +64,7 @@ class irControllerSystem {
       if (Date.now() < this.lastKeyEvent.time + (this.loopSpeed) ) {
         stop = true; // We're within a gap of the last IR event. Don't actually send an API call.
       } else {
-        // Continue on.
-        // Buffer loop.
+        // Continue on and trigger the buffer loop.
         // console.log('invoking buffer loop from IR event');
         let self = this;
         setTimeout(function () {
@@ -97,11 +97,15 @@ class irControllerSystem {
     if (bufferLoop === true && Date.now() < this.lastKeyEvent.time + this.loopSpeed) {
       console.log('🟣 Buffer Loop Retrigger: ' + this.repeatCount);
 
+      if (this.repeatCount > 10) {
+        this.loopSpeed = this.loopSpeed * .7; // Long press? Change volume faster.
+        console.log('🏎 fast repeat mode enabled');
+      } else if (this.loopSpeed !== this.standardLoopSpeed) {
+        this.loopSpeed = this.standardLoopSpeed;
+      }
+
       let repeatDelay = this.loopSpeed;
-      // if (this.repeatCount > 10) {
-      //   repeatDelay = repeatDelay * .75; // Long press? Change volume faster.
-      //   console.log('🏎 fast repeat');
-      // }
+      
 
       let self = this;
       setTimeout(function () {
