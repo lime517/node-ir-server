@@ -96,9 +96,11 @@ class irControllerSystem {
       this.repeatCount++;
 
       console.log(this.repeatCount);
-    } else {
+    } else if (bufferLoop === true){
       this.repeatCount = 0;
       return;
+    } else {
+      this.repeatCount = 0;
     }
 
     console.log('🟢 ' + Date.now() + ': Running with invocation from bufferloop = ' + bufferLoop);
