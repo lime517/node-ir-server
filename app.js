@@ -87,11 +87,16 @@ class irControllerSystem {
     if (bufferLoop === true && Date.now() < this.lastKeyEvent.time + this.loopSpeed) {
       console.log('🟣 Buffer Loop Retrigger');
 
-      // First loop exception
+      let repeatDelay = this.loopSpeed;
+      if (this.repeatCount > 15) {
+        repeatDelay = repeatDelay * .5; // Long press? Change volume faster.
+        console.log('🏎 fast repeat');
+      }
+
       let self = this;
       setTimeout(function () {
         self.rawInput(keycode, bufferLength, remoteName, true);
-      }, this.loopSpeed);
+      }, repeatDelay);
 
       this.repeatCount++;
 
