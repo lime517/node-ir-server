@@ -96,6 +96,7 @@ class irControllerSystem {
     // Buffer loop.
     if (bufferLoop === true && Date.now() < this.lastKeyEvent.time + this.loopSpeed - irRepeatTightness) {
       console.log('🟣 Buffer Loop Retrigger: ' + this.repeatCount);
+      console.log('🟣 IR Repeat Tightness: ' + this.irRepeatTightness);
 
       if (this.repeatCount > 10) {
         this.loopSpeed = this.loopSpeed * .7; // Long press? Change volume faster.
@@ -186,7 +187,7 @@ const remotes = {
     volumeMute: 752
   },
   lgRemote: {
-    systemBuffer: 25,
+    systemBuffer: 0,
     volumeUp: 31258,
     volumeDown: 31259,
     volumeMute: 31260
