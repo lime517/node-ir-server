@@ -52,7 +52,7 @@ class irControllerSystem {
   */
   rawInput(keycode, bufferLength, remoteName, bufferLoop) {
     // Log the event.
-    console.log(Date.now() + ': ' + keycode + 'called from ' + remoteName + ' with buffer length of ' + bufferLength + 'ms with bufferloop = ' + bufferLoop);
+    // console.log(Date.now() + ': ' + keycode + 'called from ' + remoteName + ' with buffer length of ' + bufferLength + 'ms with bufferloop = ' + bufferLoop);
 
     // Was this from an actual input? Or just a looped event?
     if (bufferLoop === false) { // Actual input
@@ -65,7 +65,7 @@ class irControllerSystem {
       } else {
         // Continue on.
         // Buffer loop.
-        console.log('invoking buffer loop from IR event');
+        // console.log('invoking buffer loop from IR event');
         let self = this;
         setTimeout(function () {
           self.rawInput(keycode, bufferLength, remoteName, true);
@@ -95,7 +95,7 @@ class irControllerSystem {
 
     // Buffer loop.
     if (bufferLoop === true && Date.now() < this.lastKeyEvent.time + this.loopSpeed) {
-      console.log('🟣 Buffer Loop Retrigger');
+      console.log('🟣 Buffer Loop Retrigger: ' + this.repeatCount);
 
       let repeatDelay = this.loopSpeed;
       if (this.repeatCount > 10) {
@@ -110,7 +110,6 @@ class irControllerSystem {
 
       this.repeatCount++;
 
-      console.log(this.repeatCount);
     } else if (bufferLoop === true){
       this.repeatCount = 0;
       return;
