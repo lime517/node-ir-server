@@ -47,13 +47,13 @@ class irControllerSystem {
   /*
     TBA
     keycode:
-    bufferLength:
+    irRepeatTightness:
     remoteName:
     self: False if originated from an actual ir-remote, true of triggered by the rawInput function (buffer loop system).
   */
-  rawInput(keycode, bufferLength, remoteName, bufferLoop) {
+  rawInput(keycode, irRepeatTightness, remoteName, bufferLoop) {
     // Log the event.
-    // console.log(Date.now() + ': ' + keycode + 'called from ' + remoteName + ' with buffer length of ' + bufferLength + 'ms with bufferloop = ' + bufferLoop);
+    // console.log(Date.now() + ': ' + keycode + 'called from ' + remoteName + ' with buffer length of ' + irRepeatTightness + 'ms with bufferloop = ' + bufferLoop);
 
     // Was this from an actual input? Or just a looped event?
     if (bufferLoop === false) { // Actual input
@@ -68,7 +68,7 @@ class irControllerSystem {
         // console.log('invoking buffer loop from IR event');
         let self = this;
         setTimeout(function () {
-          self.rawInput(keycode, bufferLength, remoteName, true);
+          self.rawInput(keycode, irRepeatTightness, remoteName, true);
         }, this.loopSpeed);
       }
 
@@ -94,7 +94,7 @@ class irControllerSystem {
     }
 
     // Buffer loop.
-    if (bufferLoop === true && Date.now() < this.lastKeyEvent.time + this.loopSpeed) {
+    if (bufferLoop === true && Date.now() < this.lastKeyEvent.time + this.loopSpeed - irRepeatTightness) {
       console.log('🟣 Buffer Loop Retrigger: ' + this.repeatCount);
 
       if (this.repeatCount > 10) {
@@ -109,7 +109,7 @@ class irControllerSystem {
 
       let self = this;
       setTimeout(function () {
-        self.rawInput(keycode, bufferLength, remoteName, true);
+        self.rawInput(keycode, irRepeatTightness, remoteName, true);
       }, repeatDelay);
 
       this.repeatCount++;
@@ -180,19 +180,19 @@ let irController = new irControllerSystem();
 
 const remotes = {
   chromeCastRemote: {
-    systemBuffer: 90,
+    systemBuffer: 0,
     volumeUp: 753,
     volumeDown: 754,
     volumeMute: 752
   },
   lgRemote: {
-    systemBuffer: 90,
+    systemBuffer: 50,
     volumeUp: 31258,
     volumeDown: 31259,
     volumeMute: 31260
   },
   sonyRemote: {
-    systemBuffer: 125,
+    systemBuffer: 50,
     volumeUp: 65554,
     volumeDown: 65555,
     volumeMute: 65556
