@@ -32,7 +32,7 @@ const axios = require("axios").default;
 class irControllerSystem {
   constructor() {
     this.lastNewKeypress = 0;
-    this.apiBase = "http://m10.local:11000/";
+    this.apiBase = "http://m10fail.local:11000/";
     this.currentMuteState = 0;
     this.lastKeyEvent = {
       time: 0,
