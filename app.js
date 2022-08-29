@@ -145,20 +145,16 @@ class irControllerSystem {
     // Make the Axios HTTP Request, now with error handling!
     let request = axios.get(this.apiBase + endpoint).catch(function (error) {
       if (error.response) {
-        // The request was made and the server responded with a status code
-        // that falls out of the range of 2xx
         // console.log(error.response.data);
         // console.log(error.response.status);
         // console.log(error.response.headers);
+        console.log('❌ API Request failed! Server responded with status code that falls out of the range of 2xx');
       } else if (error.request) {
-        // The request was made but no response was received
-        // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
-        // http.ClientRequest in node.js
         //console.log(error.request);
+        console.log('❌ API Request failed! Request was made but response was received.');
       } else {
-        // Something happened in setting up the request that triggered an Error
+        console.log('❌ API Request failed! Something happened in setting up the request that triggered an Error');
       }
-      console.log('❌ - API Request fail!');
     });
     return request;
   }
