@@ -32,7 +32,7 @@ const axios = require("axios").default;
 class irControllerSystem {
   constructor() {
     this.lastNewKeypress = 0;
-    this.apiBase = "http://m10fail.local:11000/";
+    this.apiBase = "http://m10.local:11000/";
     this.currentMuteState = 0;
     this.lastKeyEvent = {
       time: 0,
@@ -151,7 +151,7 @@ class irControllerSystem {
         console.log('❌ API Request failed! Server responded with status code that falls out of the range of 2xx');
       } else if (error.request) {
         //console.log(error.request);
-        console.log('❌ API Request failed! Request was made but response was received.');
+        console.log('❌ API Request failed! Request was made but no response was received.');
       } else {
         console.log('❌ API Request failed! Something happened in setting up the request that triggered an Error');
       }
