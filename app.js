@@ -428,15 +428,21 @@ class irControllerSystem {
 
   start() {
     const InputEvent = require("input-event");
-    let hasInput = false;
+    console.log("Platform is: " + process.platform);
     try {
+      console.log('Attempting to use Linux/IR mode.');
       const input = new InputEvent("/dev/input/event0");
+      console.log('Using Linux/IR mode.');
       this.setupLinuxInputs(input, this.linuxRemotes);
     } catch (error) {
       // MacOS mode
-      console.log('No Linux-style input device could be found, trying MacOS mode.');
-      let keypress = require('keypress');
-      this.setupMacInputs(keypress, this.macRemote);
+      if(process.platform == 'darwin') {
+        console.log('Using MacOS mode.');
+        let keypress = require('keypress');
+        this.setupMacInputs(keypress, this.macRemote);
+      } else {
+        console.log('Failed. No suitable setup mode could be used.');
+      }
     }
   }
 }
