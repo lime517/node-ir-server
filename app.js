@@ -31,10 +31,10 @@ const events = require('events');
 
 const yargs = require('yargs');
 let argv = yargs
-    .option('logAllIrEvents', {
-            alias: 'i',
-            default: false,
-    }).argv;
+  .option('logAllIrEvents', {
+    alias: 'i',
+    default: false,
+  }).argv;
 
 // Our controller that passes on HTTP requests, etc
 class irControllerSystem {
@@ -110,8 +110,15 @@ class irControllerSystem {
         isActive: false
       }
     }
-    this.setupLgtv(this.eventEmitter); // Setup the LG TV
     this.tvConnected = false;
+    this.setupLgtv(this.eventEmitter);
+
+    // Attempt to connect to the TV if it's not already connected
+    this.eventEmitter.on('tvCommand', (command) => {
+      if (this.tvConnected === false) {
+        this.setupLgtv(this.eventEmitter);
+      }
+    });
   }
 
   setupLgtv(eventEmitter) {
@@ -161,7 +168,7 @@ class irControllerSystem {
         // SHOULD it be active? 
         if (Date.now() >= code.activationTimestamp + code.activationDuration && code.activationDuration !== 0) {
           this.secretCodes[index].isActive = false;
-          if(code.onTimeout) {
+          if (code.onTimeout) {
             returnable = code.onTimeout;
           }
           console.log('🕹 🔴 Secret Code: ' + index + ' deactivated, maximum time met.');
@@ -243,10 +250,6 @@ class irControllerSystem {
     // Log the event.
     // console.log(Date.now() + ': ' + keycode + 'called from ' + remoteName + ' with buffer length of ' + irRepeatDelay + 'ms with bufferloop = ' + bufferLoop);
 
-    // Attempt to connect to the TV if it's not already connected
-    if(this.tvConnected === false) {
-      this.setupLgtv(this.eventEmitter);
-    }
     // Was this from an actual input? Or just a looped event?
     if (bufferLoop === false) { // Actual input
       console.log('🔵 Input Event from ' + remoteName);
@@ -433,7 +436,7 @@ class irControllerSystem {
     const keyboard = new InputEvent.Keyboard(input);
 
     keyboard.on("data", function (buffer) {
-      if(argv.i) {
+      if (argv.i) {
         console.log(buffer); // Log *everything* Useful for discovering IR keycodes
       }
 
@@ -455,8 +458,7 @@ class irControllerSystem {
     const InputEvent = require("input-event");
     console.log("Platform is: " + process.platform);
 
-    console.log(argv);
-    if(argv.i) {
+    if (argv.i) {
       console.log("Log ALL IR events is enabled."); // Log *everything* Useful for discovering IR keycodes
     }
     try {
@@ -467,7 +469,7 @@ class irControllerSystem {
     } catch (error) {
       // MacOS mode
       console.log('Attempted Linux Mode error: ' + error);
-      if(process.platform == 'darwin') {
+      if (process.platform == 'darwin') {
         console.log('Using MacOS mode.');
         let keypress = require('keypress');
         this.setupMacInputs(keypress, this.macRemote);
