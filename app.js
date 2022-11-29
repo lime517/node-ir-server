@@ -420,7 +420,7 @@ class irControllerSystem {
     const keyboard = new InputEvent.Keyboard(input);
 
     keyboard.on("data", function (buffer) {
-      // console.log(buffer); // Log *everything* Useful for discovering IR keycodes
+      console.log(buffer); // Log *everything* Useful for discovering IR keycodes
 
       // Set up inputs. 
       if (buffer.type === 4 && buffer.code === 4) {
