@@ -391,8 +391,7 @@ class irControllerSystem {
     // listen for the "keypress" event
     process.stdin.on('keypress', function (ch, key) {
       console.log('got "keypress"', key); // Log ALL keypresses. Helpful for debugging!
-      if (key.name == 'c') {
-        process.stdin.pause();
+      if (key && key.ctrl && key.name == 'c') {
         process.exit()
       }
 
