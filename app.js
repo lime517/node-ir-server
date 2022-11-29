@@ -72,7 +72,7 @@ class irControllerSystem {
         volumeMute: 65556
       },
       appleRemote: { // At least, the Apple remote while connected to our LG CX
-        systemBuffer: 125, // Delay starting repeat commands (holding down a button) by 200ms
+        systemBuffer: 75, // Delay starting repeat commands (holding down a button) by 200ms
         volumeUp: 1026,
         volumeDown: 1027,
         volumeMute: 1033
