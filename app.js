@@ -91,9 +91,9 @@ class irControllerSystem {
     this.secretCodes = { // You know the konami code? Well this is like that, when you put in the inputs quickly enough, inputs will have different outputs for the activationDuration
       inputSwitcher: {
         inputs: [ // The magic input code to go into this mode
-          'volumeUp',
-          'volumeDown',
-          'volumeUp'
+          'volumeMute',
+          'volumeMute',
+          'volumeMute'
         ],
         onActivation: 'deviceinput', // What to do the moment our input keys have been entered correctly
         activatedKeys: { // When the secret code mode is activated, what should our keys do?
