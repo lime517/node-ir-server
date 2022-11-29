@@ -91,9 +91,9 @@ class irControllerSystem {
     this.secretCodes = { // You know the konami code? Well this is like that, when you put in the inputs quickly enough, inputs will have different outputs for the activationDuration
       inputSwitcher: {
         inputs: [ // The magic input code to go into this mode
-          'volumeMute',
-          'volumeMute',
-          'volumeMute'
+          'volumeUp',
+          'volumeDown',
+          'volumeUp'
         ],
         onActivation: 'deviceinput', // What to do the moment our input keys have been entered correctly
         activatedKeys: { // When the secret code mode is activated, what should our keys do?
@@ -103,6 +103,7 @@ class irControllerSystem {
         },
         currentProgress: 0,
         escapeKey: 'volumeMute', // Break out of the secret mode
+        onEscape: 'lgMute',
         gap: 1200, // in ms, the maximum amount of time between keypresses allowed.
         activationDuration: 0, // in ms, how long to keep ourselves in the "secret code" mode after it's been activated. 0 for no limit.
         onTimeout: 'back', // the key to be pressed on timeout, or false
@@ -185,6 +186,10 @@ class irControllerSystem {
         if (keycode === code.escapeKey) {
           this.secretCodes[index].isActive = false;
           console.log('🕹 🏁 Secret Code: ' + index + ' deactivated, escape key entered.');
+
+          if (code.onEscape) {
+            this.triggerEvent(code.onEscape, false);
+          }
         }
 
         break; // We should never progress secret modes while one is active.
@@ -355,6 +360,9 @@ class irControllerSystem {
         break;
       case "back":
         this.eventEmitter.emit('tvCommand', 'returnback');
+        break;
+      case "lgMute":
+        this.eventEmitter.emit('tvCommand', 'volumemute');
         break;
       default:
         console.log("No function bound to input " + keycode);
