@@ -29,6 +29,13 @@ const parser = new XMLParser({
 const axios = require("axios").default;
 const events = require('events');
 
+const yargs = require('yargs');
+let argv = yargs
+    .option('logAllIrEvents', {
+            alias: 'i',
+            default: false,
+    }).argv;
+
 // Our controller that passes on HTTP requests, etc
 class irControllerSystem {
   constructor(lgtvcontrol = true) {
@@ -63,6 +70,12 @@ class irControllerSystem {
         volumeUp: 65554,
         volumeDown: 65555,
         volumeMute: 65556
+      },
+      appleRemote: { // At least, the Apple remote while connected to our LG CX
+        systemBuffer: 125, // Delay starting repeat commands (holding down a button) by 200ms
+        volumeUp: 1026,
+        volumeDown: 1077,
+        volumeMute: 1033
       }
     }
     this.macRemote = { // Our "Mac" (keyboard) remote
@@ -420,7 +433,9 @@ class irControllerSystem {
     const keyboard = new InputEvent.Keyboard(input);
 
     keyboard.on("data", function (buffer) {
-      console.log(buffer); // Log *everything* Useful for discovering IR keycodes
+      if(argv.i) {
+        console.log(buffer); // Log *everything* Useful for discovering IR keycodes
+      }
 
       // Set up inputs. 
       if (buffer.type === 4 && buffer.code === 4) {
@@ -439,6 +454,11 @@ class irControllerSystem {
   start() {
     const InputEvent = require("input-event");
     console.log("Platform is: " + process.platform);
+
+    console.log(argv);
+    if(argv.i) {
+      console.log("Log ALL IR events is enabled."); // Log *everything* Useful for discovering IR keycodes
+    }
     try {
       console.log('Attempting to use Linux/IR mode.');
       const input = new InputEvent("/dev/input/event0");
