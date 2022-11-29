@@ -72,7 +72,7 @@ class irControllerSystem {
         volumeMute: 65556
       },
       appleRemote: { // At least, the Apple remote while connected to our LG CX
-        systemBuffer: 75, // Delay starting repeat commands (holding down a button) by 200ms
+        systemBuffer: 100, // Delay starting repeat commands (holding down a button) by 200ms
         volumeUp: 1026,
         volumeDown: 1027,
         volumeMute: 1033
@@ -103,7 +103,7 @@ class irControllerSystem {
         },
         currentProgress: 0,
         escapeKey: 'volumeMute', // Break out of the secret mode
-        onEscape: 'lgMute',
+        onEscape: false,
         gap: 1200, // in ms, the maximum amount of time between keypresses allowed.
         activationDuration: 0, // in ms, how long to keep ourselves in the "secret code" mode after it's been activated. 0 for no limit.
         onTimeout: 'back', // the key to be pressed on timeout, or false
@@ -341,10 +341,12 @@ class irControllerSystem {
         this.mute();
         break;
       case "volumeUp":
-        this.volumeChange("up");
+        this.eventEmitter.emit('tvCommand', 'volumeup');
+        //this.volumeChange("up");
         break;
       case "volumeDown":
-        this.volumeChange("down");
+        this.eventEmitter.emit('tvCommand', 'volumedown');
+        //this.volumeChange("down");
         break;
       case "deviceinput":
         this.eventEmitter.emit('tvCommand', 'deviceinput');
