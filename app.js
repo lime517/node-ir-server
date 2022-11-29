@@ -97,7 +97,8 @@ class irControllerSystem {
         isActive: false
       }
     }
-    this.setupLgtv(this.eventEmitter); // 
+    this.setupLgtv(this.eventEmitter); // Setup the LG TV
+    this.tvConnected = false;
   }
 
   setupLgtv(eventEmitter) {
@@ -114,6 +115,7 @@ class irControllerSystem {
     tv.connect()
       .then(async () => {
         console.log('LG TV Connected.');
+        this.tvConnected = true;
         // await tv.sendKey('deviceinput'); // device input switcher
         // await tv.setVolumeMute(false);
         // console.log('Setting volume to 15...');
@@ -124,7 +126,11 @@ class irControllerSystem {
           tv.sendKey(command);
         });
       })
-      .catch(console.error);
+      .catch((error) => {
+        console.log('❌ LG TV failed to connect.');
+        console.log(error);
+        this.tvConnected = false;
+      });
 
     return tv;
   }
@@ -224,6 +230,10 @@ class irControllerSystem {
     // Log the event.
     // console.log(Date.now() + ': ' + keycode + 'called from ' + remoteName + ' with buffer length of ' + irRepeatDelay + 'ms with bufferloop = ' + bufferLoop);
 
+    // Attempt to connect to the TV if it's not already connected
+    if(this.tvConnected === false) {
+      this.setupLgtv(this.eventEmitter);
+    }
     // Was this from an actual input? Or just a looped event?
     if (bufferLoop === false) { // Actual input
       console.log('🔵 Input Event from ' + remoteName);
@@ -390,7 +400,7 @@ class irControllerSystem {
     keypress(process.stdin);
     // listen for the "keypress" event
     process.stdin.on('keypress', function (ch, key) {
-      console.log('got "keypress"', key); // Log ALL keypresses. Helpful for debugging!
+      // console.log('got "keypress"', key); // Log ALL keypresses. Helpful for debugging!
       if (key && key.ctrl && key.name == 'c') {
         process.exit()
       }
@@ -436,7 +446,7 @@ class irControllerSystem {
       this.setupLinuxInputs(InputEvent, input, this.linuxRemotes);
     } catch (error) {
       // MacOS mode
-      console.log(error);
+      console.log('Attempted Linux Mode error: ' + error);
       if(process.platform == 'darwin') {
         console.log('Using MacOS mode.');
         let keypress = require('keypress');
