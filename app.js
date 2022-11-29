@@ -436,12 +436,14 @@ class irControllerSystem {
       this.setupLinuxInputs(input, this.linuxRemotes);
     } catch (error) {
       // MacOS mode
+      console.log(error);
       if(process.platform == 'darwin') {
         console.log('Using MacOS mode.');
         let keypress = require('keypress');
         this.setupMacInputs(keypress, this.macRemote);
       } else {
         console.log('Failed. No suitable setup mode could be used.');
+        process.exit;
       }
     }
   }
