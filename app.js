@@ -406,7 +406,7 @@ class irControllerSystem {
     process.stdin.resume();
   }
 
-  setupLinuxInputs(input, remotes) {
+  setupLinuxInputs(InputEvent, input, remotes) {
     const keyboard = new InputEvent.Keyboard(input);
 
     keyboard.on("data", function (buffer) {
@@ -433,7 +433,7 @@ class irControllerSystem {
       console.log('Attempting to use Linux/IR mode.');
       const input = new InputEvent("/dev/input/event0");
       console.log('Using Linux/IR mode.');
-      this.setupLinuxInputs(input, this.linuxRemotes);
+      this.setupLinuxInputs(InputEvent, input, this.linuxRemotes);
     } catch (error) {
       // MacOS mode
       console.log(error);
