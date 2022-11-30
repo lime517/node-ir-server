@@ -338,14 +338,14 @@ class irControllerSystem {
     console.log('🟢 ' + Date.now() + ': ' + keycode + ': Running with invocation from bufferloop = ' + bufferLoop);
     switch (keycode) {
       case "volumeMute":
-        this.mute();
+        // this.mute();
         break;
       case "volumeUp":
-        this.eventEmitter.emit('tvCommand', 'volumeup');
+        // this.eventEmitter.emit('tvCommand', 'volumeup');
         //this.volumeChange("up");
         break;
       case "volumeDown":
-        this.eventEmitter.emit('tvCommand', 'volumedown');
+        // this.eventEmitter.emit('tvCommand', 'volumedown');
         //this.volumeChange("down");
         break;
       case "deviceinput":
