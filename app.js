@@ -54,7 +54,7 @@ class irControllerSystem {
     this.repeatCount = 0;
     this.linuxRemotes = { // Keycodes for all of our remotes
       denonRemote: {
-        systemBuffer: 0,
+        systemBuffer: 50,
         volumeUp: 753,
         volumeDown: 754,
         volumeMute: 752
