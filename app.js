@@ -53,13 +53,13 @@ class irControllerSystem {
     this.loopSpeed = this.standardLoopSpeed; // variable loop speed
     this.repeatCount = 0;
     this.linuxRemotes = { // Keycodes for all of our remotes
-      chromeCastRemote: {
+      denonRemote: {
         systemBuffer: 0,
         volumeUp: 753,
         volumeDown: 754,
         volumeMute: 752
       },
-      lgRemote: {
+      lgRemote: { // No idea what codes these actually belong to. Denon? Yamaha? Who knows.
         systemBuffer: 75,
         volumeUp: 31258,
         volumeDown: 31259,
@@ -71,7 +71,7 @@ class irControllerSystem {
         volumeDown: 65555,
         volumeMute: 65556
       },
-      appleRemote: { // At least, the Apple remote while connected to our LG CX
+      lgCX: { // At least, the Apple remote while connected to our LG CX
         systemBuffer: 100, // Delay starting repeat commands (holding down a button) by 200ms
         volumeUp: 1026,
         volumeDown: 1027,
