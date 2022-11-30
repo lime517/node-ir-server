@@ -49,7 +49,7 @@ class irControllerSystem {
       code: 0
     }
     this.lastBufferLoopEvent = 0;
-    this.standardLoopSpeed = 125; // default loop speed.
+    this.standardLoopSpeed = 85; // default loop speed.
     this.loopSpeed = this.standardLoopSpeed; // variable loop speed
     this.repeatCount = 0;
     this.linuxRemotes = { // Keycodes for all of our remotes
