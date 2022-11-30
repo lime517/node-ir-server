@@ -145,12 +145,11 @@ class irControllerSystem {
         eventEmitter.on('tvMute', async () => {
           console.log("📺 LG TV: Toggle Mute.");
           let muteState = await tv.getMuteState();
-          console.log(muteState);
-          if(muteState.includes('on')) {
-            console.log('Mute State is on, setting to off.');
+          if(muteState.includes("on")) {
+            console.log("📺 LG TV: Mute State is on, setting to off.");
             muteState = false;
           } else {
-            console.log('Mute State is off, setting to on.');
+            console.log("📺 LG TV: Mute State is off, setting to on.");
             muteState = true;
           }
           await tv.setVolumeMute(muteState);
