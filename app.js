@@ -350,11 +350,11 @@ class irControllerSystem {
         this.eventEmitter.emit('tvMute');
         break;
       case "volumeUp":
-        // this.eventEmitter.emit('tvCommand', 'volumeup');
+        this.eventEmitter.emit('tvCommand', 'volumeup');
         //this.volumeChange("up");
         break;
       case "volumeDown":
-        // this.eventEmitter.emit('tvCommand', 'volumedown');
+        this.eventEmitter.emit('tvCommand', 'volumedown');
         //this.volumeChange("down");
         break;
       case "deviceinput":
