@@ -137,14 +137,23 @@ class irControllerSystem {
       .then(async () => {
         console.log('LG TV Connected.');
         this.tvConnected = true;
-        // await tv.sendKey('deviceinput'); // device input switcher
-        // await tv.setVolumeMute(false);
-        // console.log('Setting volume to 15...');
-        // await tv.setVolume(15);
-        // console.log('Done!');
+
         eventEmitter.on('tvCommand', (command) => {
           console.log("📺 LG TV Key: " + command + " being sent.");
           tv.sendKey(command);
+        });
+        eventEmitter.on('tvMute', async () => {
+          console.log("📺 LG TV: Toggle Mute.");
+          let muteState = await tv.getMuteState();
+          console.log(muteState);
+          if(muteState.includes('on')) {
+            console.log('Mute State is on, setting to off.');
+            muteState = false;
+          } else {
+            console.log('Mute State is off, setting to on.');
+            muteState = true;
+          }
+          await tv.setVolumeMute(muteState);
         });
       })
       .catch((error) => {
@@ -339,6 +348,7 @@ class irControllerSystem {
     switch (keycode) {
       case "volumeMute":
         // this.mute();
+        this.eventEmitter.emit('tvMute');
         break;
       case "volumeUp":
         // this.eventEmitter.emit('tvCommand', 'volumeup');
