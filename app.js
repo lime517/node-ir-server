@@ -104,7 +104,7 @@ class irControllerSystem {
         currentProgress: 0,
         escapeKey: 'volumeMute', // Break out of the secret mode
         onEscape: false,
-        gap: 1200, // in ms, the maximum amount of time between keypresses allowed.
+        gap: 1000, // in ms, the maximum amount of time between keypresses allowed.
         activationDuration: 0, // in ms, how long to keep ourselves in the "secret code" mode after it's been activated. 0 for no limit.
         onTimeout: 'back', // the key to be pressed on timeout, or false
         activationTimestamp: 0,
