@@ -145,7 +145,7 @@ class irControllerSystem {
         eventEmitter.on('tvMute', async () => {
           console.log("📺 LG TV: Toggle Mute.");
           let muteState = await tv.getMuteState();
-          if(muteState.includes("on")) {
+          if (muteState.includes("on")) {
             console.log("📺 LG TV: Mute State is on, setting to off.");
             muteState = false;
           } else {
@@ -275,13 +275,15 @@ class irControllerSystem {
         // Continue on and trigger the buffer loop.
         // console.log('invoking buffer loop from IR event');
         let self = this;
-        setTimeout(function () {
-          self.rawInput(keycode, irRepeatDelay, remoteName, true);
-        }, this.loopSpeed + irRepeatDelay);
+        if (keycode === "volumeUp" || keycode === "volumeDown") { // Only repeat repeatable inputs (volume up and down)
+          setTimeout(function () {
+            self.rawInput(keycode, irRepeatDelay, remoteName, true);
+          }, this.loopSpeed + irRepeatDelay);
+        }
       }
 
       if (stop) {
-        console.log('🟠 Stopping.')
+        console.log('🟠 Stopping IR input from triggering event.')
         return; // End bufferloop.
       }
 
@@ -300,7 +302,7 @@ class irControllerSystem {
     // Double bufferLoop prevention
     if (bufferLoop === true) {
       if (this.lastBufferLoopEvent > (Date.now() - this.loopSpeed + 5)) {
-        console.log('🔴 DOUBLE BUFFER LOOP DETECTED AND STOPPED.');
+        console.log('🔴 A bufferLoop invoked input came in too quickly, stopping it from triggering an event.');
         return;
       }
       this.lastBufferLoopEvent = Date.now();
@@ -308,6 +310,7 @@ class irControllerSystem {
 
     // Buffer loop.
     if (bufferLoop === true && Date.now() < this.lastKeyEvent.time + this.loopSpeed) {
+      this.repeatCount++;
       console.log('🟣 Buffer Loop Retrigger: ' + this.repeatCount);
       console.log('🟣 IR Repeat Tightness: ' + irRepeatDelay);
 
@@ -320,13 +323,12 @@ class irControllerSystem {
 
       let repeatDelay = this.loopSpeed;
 
-
       let self = this;
-      setTimeout(function () {
-        self.rawInput(keycode, irRepeatDelay, remoteName, true);
-      }, repeatDelay);
-
-      this.repeatCount++;
+      if (keycode === "volumeUp" || keycode === "volumeDown") { // Only repeat repeatable inputs (volume up and down)
+        setTimeout(function () {
+          self.rawInput(keycode, irRepeatDelay, remoteName, true);
+        }, repeatDelay);
+      }
 
     } else if (bufferLoop === true) {
       this.repeatCount = 0;
@@ -350,11 +352,11 @@ class irControllerSystem {
         this.eventEmitter.emit('tvMute');
         break;
       case "volumeUp":
-        this.eventEmitter.emit('tvCommand', 'volumeup');
+        //this.eventEmitter.emit('tvCommand', 'volumeup');
         //this.volumeChange("up");
         break;
       case "volumeDown":
-        this.eventEmitter.emit('tvCommand', 'volumedown');
+        //this.eventEmitter.emit('tvCommand', 'volumedown');
         //this.volumeChange("down");
         break;
       case "deviceinput":
