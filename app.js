@@ -14,6 +14,7 @@ sudo ir-keytable -v -t -p rc-5,rc-5-sz,jvc,sony,nec,sanyo,mce_kbd,rc-6,sharp,xmp
 
 */
 
+/* NOTE: ALL INPUTS ARE CURRENTLY DISABLED */
 console.log('node-ir-server service started!');
 
 // Utilities
@@ -53,30 +54,30 @@ class irControllerSystem {
     this.loopSpeed = this.standardLoopSpeed; // variable loop speed
     this.repeatCount = 0;
     this.linuxRemotes = { // Keycodes for all of our remotes
-      denonRemote: {
-        systemBuffer: 50,
-        volumeUp: 753,
-        volumeDown: 754,
-        volumeMute: 752
-      },
-      lgRemote: { // No idea what codes these actually belong to. Denon? Yamaha? Who knows.
-        systemBuffer: 75,
-        volumeUp: 31258,
-        volumeDown: 31259,
-        volumeMute: 31260
-      },
-      sonyRemote: {
-        systemBuffer: 200, // Delay starting repeat commands (holding down a button) by 200ms
-        volumeUp: 65554,
-        volumeDown: 65555,
-        volumeMute: 65556
-      },
-      lgCX: { // At least, the Apple remote while connected to our LG CX
-        systemBuffer: 100, // Delay starting repeat commands (holding down a button) by 200ms
-        volumeUp: 1026,
-        volumeDown: 1027,
-        volumeMute: 1033
-      }
+      // denonRemote: {
+      //   systemBuffer: 50,
+      //   volumeUp: 753,
+      //   volumeDown: 754,
+      //   volumeMute: 752
+      // },
+      // lgRemote: { // No idea what codes these actually belong to. Denon? Yamaha? Who knows.
+      //   systemBuffer: 75,
+      //   volumeUp: 31258,
+      //   volumeDown: 31259,
+      //   volumeMute: 31260
+      // },
+      // sonyRemote: {
+      //   systemBuffer: 200, // Delay starting repeat commands (holding down a button) by 200ms
+      //   volumeUp: 65554,
+      //   volumeDown: 65555,
+      //   volumeMute: 65556
+      // },
+      // lgCX: { // At least, the Apple remote while connected to our LG CX
+      //   systemBuffer: 100, // Delay starting repeat commands (holding down a button) by 200ms
+      //   volumeUp: 1026,
+      //   volumeDown: 1027,
+      //   volumeMute: 1033
+      // }
     }
     this.macRemote = { // Our "Mac" (keyboard) remote
       systemBuffer: 0,
@@ -502,6 +503,5 @@ class irControllerSystem {
   }
 }
 
-// DISABLED FOR DEBUGGING
 let irController = new irControllerSystem();
 irController.start();
